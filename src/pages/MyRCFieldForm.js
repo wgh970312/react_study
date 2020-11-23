@@ -1,4 +1,4 @@
-import React, {Component, useEffect} from "react";
+import React, {useEffect, useRef} from "react";
 // import Form, {Field} from "rc-field-form";
 import Form, {Field} from "../components/my-rc-field-form/";
 import Input from "../components/Input";
@@ -20,7 +20,7 @@ export default function MyRCFieldForm(props) {
 
   useEffect(() => {
     console.log("form", form); //sy-log
-    form.setFieldsValue({username: "default"});
+    form.setFieldsValue({username: "functional component"});
   }, []);
 
   return (
@@ -39,11 +39,11 @@ export default function MyRCFieldForm(props) {
   );
 }
 
-// export default class MyRCFieldForm extends Component {
+// export default class MyRCFieldForm extends React.Component {
 //   formRef = React.createRef();
 //   componentDidMount() {
 //     console.log("form", this.formRef.current); //sy-log
-//     this.formRef.current.setFieldsValue({username: "default"});
+//     this.formRef.current.setFieldsValue({username: "class component"});
 //   }
 
 //   onFinish = val => {

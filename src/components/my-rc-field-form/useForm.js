@@ -88,11 +88,15 @@ class FormStore {
   }
 }
 
-export default function useForm() {
+export default function useForm(form) {
   const formRef = React.useRef()
 
   if(!formRef.current){
-    formRef.current = new FormStore()
+    if(form){
+      formRef.current = form
+    } else {
+      formRef.current = new FormStore()
+    }
   }
 
   return [formRef.current]

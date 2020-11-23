@@ -1,18 +1,22 @@
-import React from 'react'
+import React, { useImperativeHandle } from 'react'
 import FieldContext from './FieldContext'
+import useForm from './useForm'
 
-function Form({ children, form, onFinish, onFinishFailed }) {
-  form.setCallback({
+function Form({ children, form, onFinish, onFinishFailed }, ref) {
+  const [formInstance] = useForm(form)
+  useImperativeHandle(ref, () => formInstance)
+  formInstance.setCallback({
     onFinish,
     onFinishFailed
   })
 
+
   return (
     <form onSubmit={e => {
       e.preventDefault()
-      form.submit()
+      formInstance.submit()
     }}>
-      <FieldContext.Provider value={form}>
+      <FieldContext.Provider value={formInstance}>
         { children }
       </FieldContext.Provider>
     </form>
