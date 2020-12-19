@@ -70,7 +70,7 @@ export function applyMiddleware(...middlewares) {
 
 export function thunk({ dispatch, getState }) {
   return next => action => {
-    console.log('thunk', next)
+    // console.log('thunk', next)
     if(typeof action === 'function'){
       return action(dispatch, getState)
     }
@@ -81,7 +81,7 @@ export function thunk({ dispatch, getState }) {
 
 export function logger({ getState }) {
   return next => action => {
-    console.log('logger', next)
+    // console.log('logger', next)
     console.group('自定义 logger')
     console.log('prve state', getState())
 
@@ -90,5 +90,21 @@ export function logger({ getState }) {
     console.log('next state', getState())
     console.groupEnd()
     return returnValue
+  }
+}
+
+export function combineReducers(reducers) {
+  return function combination(state = {}, action) {
+    let nextState = {}
+    let hasChanged = false
+    for (const key in reducers) {
+      const reducer = reducers[key]
+      nextState[key] = reducer(state[key], action)
+      hasChanged = hasChanged || nextState[key] !== state[key]
+    }
+
+    hasChanged = hasChanged || Object.keys(nextState).length !== Object.keys(state).length
+
+    return hasChanged ? nextState : state
   }
 }
